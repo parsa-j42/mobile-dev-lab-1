@@ -1,50 +1,89 @@
-# Welcome to your Expo app 👋
+# Lab Assignment 1: Spinning Up React Native App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## System Requirements
 
-## Get started
+The system specifications used for the lab were:
 
-1. Install dependencies
+- RAM: 16 GB
+- CPU: AMD Ryzen™ 7 5700U
+- Integrated GPU: Radeon™ Graphics
+- Operating System: Linux (Fedora 40 - Workstation Edition)
 
-   ```bash
-   npm install
-   ```
+## Installation Instructions
 
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+1. First, install NVM (node version manager) by running:
 ```bash
-npm run reset-project
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash 
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Add the nvm loading script to path (~/.zshrc in my case):
+```bash
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+```
 
-## Learn more
+3. Run `nvm use 20.17.0` to use the current stable version of Node.js.
 
-To learn more about developing your project with Expo, look at the following resources:
+4. Run `node -v` to make sure Node.js is on the right version.
+## Configuration Steps
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+To prepare for development builds:
 
-## Join the community
+1. Clone Watchman's GitHub repository:
 
-Join our community of developers creating universal apps.
+bash
+```bash
+git clone https://github.com/facebook/watchman.git
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+2. Install Watchman:
+
+bash
+```bash
+cd watchman
+
+# Ensure Cargo is installed. Either through your OS's package manager or https://rustup.rs/
+cargo version
+# If not installed, run `sudo dnf install rust cargo`
+
+# Optionally, to save time, you can ask Watchman's build process to install system dependencies
+sudo ./install-system-packages.sh
+
+./autogen.sh
+```
+
+3. Install OpenJDK runtime environment and development environment:
+```bash
+sudo dnf install java-latest-openjdk java-latest-openjdk-devel
+```
+
+4. Optional Step: If you want to use an emulator, Install Android Studio through either FlatPak, the binary .RPM file provided by the official site, or from JetBrains ToolBox, if you have that installed. Then, use the official Expo guide to configure Android Studio for Emulation through [Expo Environment Setup Guide](https://docs.expo.dev/get-started/set-up-your-environment/?mode=development-build&buildEnv=local&platform=android&device=physical).
+
+5. Plug in your mobile device with a USB cable to the computer, and check if the device is connected by running `adb devices`.
+
+## Project Creation
+
+Run `npx create-expo-app@latest project-name` to create the default pre-populated expo project, with the desired name.
+
+## Running the Project
+
+- Run `npx expo run:android`.
+- Alternatively, run `npx expo run:web`.
+
+## Troubleshooting
+
+- If `adb devices` doesn't find your Android device, you may have to enable USB Debugging on your phone (through Developer Options).
+- The Watchman Documentation says that there are binary builds available for some Linux distributions, such as Fedora and Debian. However, these docs are outdated, and the new versions of Watchman aren't available prebuilt. They must be built from source, as we've done here.
+- If you have trouble building Watchman from source (it can be a tedious and long process sometimes), you can install it threw Homebrew as well.
+```bash
+# First install Homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Then install Watchman threw Homebrew
+brew install watchman
+```
+## Resources
+
+- [Watchman Installation Guide](https://facebook.github.io/watchman/docs/install#linux)
+- [NVM GitHub Repository](https://github.com/nvm-sh/nvm)
+- [Expo Environment Setup Guide](https://docs.expo.dev/get-started/set-up-your-environment/?mode=development-build&buildEnv=local&platform=android&device=physical)
